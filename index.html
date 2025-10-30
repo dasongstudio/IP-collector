@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备信息登记 - 学校网络安全</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 设备信息登记</h1>
+            <p>为保障网络安全，请登记您的设备信息</p>
+        </header>
+
+        <div class="card">
+            <h2>自动收集的信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>IP地址:</label>
+                    <span id="ipAddress" class="value">收集中...</span>
+                </div>
+                <div class="info-item">
+                    <label>设备标识:</label>
+                    <span id="deviceId" class="value">生成中...</span>
+                </div>
+                <div class="info-item">
+                    <label>浏览器:</label>
+                    <span id="browserInfo" class="value"></span>
+                </div>
+                <div class="info-item">
+                    <label>屏幕分辨率:</label>
+                    <span id="screenInfo" class="value"></span>
+                </div>
+            </div>
+        </div>
+
+        <form id="deviceForm" class="card">
+            <h2>个人信息</h2>
+            
+            <div class="form-group">
+                <label for="userName">姓名 *</label>
+                <input type="text" id="userName" name="userName" required 
+                       placeholder="请输入您的真实姓名">
+            </div>
+            
+            <div class="form-group">
+                <label for="department">部门/班级 *</label>
+                <input type="text" id="department" name="department" required
+                       placeholder="例如：计算机学院2023级1班">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">联系电话</label>
+                <input type="tel" id="phone" name="phone"
+                       placeholder="请输入手机号码">
+            </div>
+            
+            <div class="form-group">
+                <label for="deviceType">设备类型 *</label>
+                <select id="deviceType" name="deviceType" required>
+                    <option value="">请选择设备类型</option>
+                    <option value="台式电脑">台式电脑</option>
+                    <option value="笔记本电脑">笔记本电脑</option>
+                    <option value="手机">手机</option>
+                    <option value="平板">平板</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">使用地点</label>
+                <input type="text" id="location" name="location"
+                       placeholder="例如：教学楼A301、宿舍等">
+            </div>
+
+            <div class="form-group">
+                <label for="purpose">主要用途</label>
+                <select id="purpose" name="purpose">
+                    <option value="">请选择主要用途</option>
+                    <option value="学习办公">学习办公</option>
+                    <option value="实验研究">实验研究</option>
+                    <option value="娱乐休闲">娱乐休闲</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-text">提交信息</span>
+                <span class="btn-loading" style="display: none;">提交中...</span>
+            </button>
+        </form>
+
+        <div class="footer-links">
+            <a href="report.html">查看统计报表</a>
+            <a href="https://github.com/your-username/device-collector" target="_blank">项目源码</a>
+        </div>
+    </div>
+
+    <!-- 结果提示 -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

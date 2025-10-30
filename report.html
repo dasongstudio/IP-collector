@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据报表 - 设备信息收集</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 数据统计报表</h1>
+            <p>设备信息收集统计</p>
+        </header>
+
+        <div class="card">
+            <h2>统计概览</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalRecords">0</span>
+                    <span class="stat-label">总记录数</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="uniqueDepartments">0</span>
+                    <span class="stat-label">部门/班级数</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="deviceTypes">0</span>
+                    <span class="stat-label">设备类型数</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>详细数据</h2>
+                <button id="exportData" class="submit-btn" style="width: auto; padding: 10px 20px;">
+                    导出数据
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>部门/班级</th>
+                            <th>IP地址</th>
+                            <th>设备标识</th>
+                            <th>设备类型</th>
+                            <th>联系电话</th>
+                            <th>使用地点</th>
+                            <th>提交时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态填充 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">返回登记页面</a>
+            <a href="https://github.com/your-username/device-collector" target="_blank">项目源码</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
