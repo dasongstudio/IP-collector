@@ -4,39 +4,248 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据报表 - 设备信息收集</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .card h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📊 数据统计报表</h1>
+            <h1><i class="fas fa-chart-bar"></i> 数据统计报表</h1>
             <p>设备信息收集统计</p>
         </header>
 
         <div class="card">
-            <h2>统计概览</h2>
+            <h2><i class="fas fa-chart-pie"></i> 统计概览</h2>
             <div class="stats-grid">
                 <div class="stat-card">
                     <span class="stat-number" id="totalRecords">0</span>
                     <span class="stat-label">总记录数</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number" id="uniqueDepartments">0</span>
-                    <span class="stat-label">部门/班级数</span>
-                </div>
-                <div class="stat-card">
                     <span class="stat-number" id="deviceTypes">0</span>
                     <span class="stat-label">设备类型数</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="uniqueIPs">0</span>
+                    <span class="stat-label">独立IP数</span>
                 </div>
             </div>
         </div>
 
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2>详细数据</h2>
-                <button id="exportData" class="submit-btn" style="width: auto; padding: 10px 20px;">
-                    导出数据
-                </button>
+                <h2><i class="fas fa-table"></i> 详细数据</h2>
+                <div class="action-buttons">
+                    <button id="exportData" class="action-btn">
+                        <i class="fas fa-download"></i> 导出数据
+                    </button>
+                    <button id="refreshData" class="action-btn">
+                        <i class="fas fa-sync-alt"></i> 刷新数据
+                    </button>
+                </div>
             </div>
             
             <div class="table-container">
@@ -45,12 +254,9 @@
                         <tr>
                             <th>#</th>
                             <th>姓名</th>
-                            <th>部门/班级</th>
-                            <th>IP地址</th>
-                            <th>设备标识</th>
+                            <th>手机号</th>
                             <th>设备类型</th>
-                            <th>联系电话</th>
-                            <th>使用地点</th>
+                            <th>局域网IP</th>
                             <th>提交时间</th>
                         </tr>
                     </thead>
@@ -62,11 +268,123 @@
         </div>
 
         <div class="footer-links">
-            <a href="index.html">返回登记页面</a>
-            <a href="https://github.com/your-username/device-collector" target="_blank">项目源码</a>
+            <a href="index.html"><i class="fas fa-arrow-left"></i> 返回登记页面</a>
+            <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i> 项目源码</a>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // 报表功能
+        class ReportViewer {
+            constructor() {
+                this.data = [];
+                this.init();
+            }
+
+            init() {
+                this.loadData();
+                this.renderReport();
+                this.setupEventHandlers();
+            }
+
+            loadData() {
+                const storedData = localStorage.getItem('deviceCollectionData');
+                this.data = storedData ? JSON.parse(storedData) : [];
+            }
+
+            renderReport() {
+                this.renderStats();
+                this.renderTable();
+            }
+
+            renderStats() {
+                const totalElement = document.getElementById('totalRecords');
+                const deviceTypesElement = document.getElementById('deviceTypes');
+                const uniqueIPsElement = document.getElementById('uniqueIPs');
+
+                if (totalElement) {
+                    totalElement.textContent = this.data.length;
+                }
+
+                if (deviceTypesElement) {
+                    const deviceTypes = new Set(this.data.map(item => item.deviceType));
+                    deviceTypesElement.textContent = deviceTypes.size;
+                }
+
+                if (uniqueIPsElement) {
+                    const uniqueIPs = new Set(this.data.map(item => item.localIp));
+                    uniqueIPsElement.textContent = uniqueIPs.size;
+                }
+            }
+
+            renderTable() {
+                const tbody = document.querySelector('#dataTable tbody');
+                if (!tbody) return;
+
+                tbody.innerHTML = '';
+
+                this.data.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${this.escapeHtml(item.userName)}</td>
+                        <td>${this.escapeHtml(item.phone)}</td>
+                        <td>${this.escapeHtml(item.deviceType)}</td>
+                        <td>${this.escapeHtml(item.localIp)}</td>
+                        <td>${this.formatDate(item.timestamp)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleString('zh-CN');
+            }
+
+            setupEventHandlers() {
+                const exportBtn = document.getElementById('exportData');
+                const refreshBtn = document.getElementById('refreshData');
+
+                if (exportBtn) {
+                    exportBtn.addEventListener('click', () => this.exportData());
+                }
+
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', () => this.refreshData());
+                }
+            }
+
+            exportData() {
+                const dataStr = JSON.stringify(this.data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `device-data-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                alert('数据导出成功！');
+            }
+
+            refreshData() {
+                this.loadData();
+                this.renderReport();
+                alert('数据已刷新！');
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            new ReportViewer();
+        });
+    </script>
 </body>
 </html>

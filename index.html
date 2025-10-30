@@ -4,60 +4,306 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>设备信息登记 - 学校网络安全</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .info-item .value {
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
+        /* 加载动画 */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-loading .btn-text {
+            display: none;
+        }
+
+        .btn-loading .spinner {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📱 设备信息登记</h1>
-            <p>为保障网络安全，请登记您的设备信息</p>
+            <h1><i class="fas fa-network-wired"></i> 设备信息登记</h1>
+            <p>为保障学校网络安全，请登记您的设备信息</p>
         </header>
 
         <div class="card">
-            <h2>自动收集的信息</h2>
+            <h2><i class="fas fa-info-circle"></i> 自动收集的信息</h2>
             <div class="info-grid">
                 <div class="info-item">
-                    <label>IP地址:</label>
-                    <span id="ipAddress" class="value">收集中...</span>
-                </div>
-                <div class="info-item">
-                    <label>设备标识:</label>
-                    <span id="deviceId" class="value">生成中...</span>
-                </div>
-                <div class="info-item">
-                    <label>浏览器:</label>
-                    <span id="browserInfo" class="value"></span>
-                </div>
-                <div class="info-item">
-                    <label>屏幕分辨率:</label>
-                    <span id="screenInfo" class="value"></span>
+                    <label>局域网IP地址:</label>
+                    <span id="localIp" class="value">收集中...</span>
                 </div>
             </div>
         </div>
 
         <form id="deviceForm" class="card">
-            <h2>个人信息</h2>
+            <h2><i class="fas fa-user-edit"></i> 个人信息</h2>
             
             <div class="form-group">
-                <label for="userName">姓名 *</label>
+                <label for="userName"><i class="fas fa-user"></i> 姓名 *</label>
                 <input type="text" id="userName" name="userName" required 
                        placeholder="请输入您的真实姓名">
             </div>
             
             <div class="form-group">
-                <label for="department">部门/班级 *</label>
-                <input type="text" id="department" name="department" required
-                       placeholder="例如：计算机学院2023级1班">
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">联系电话</label>
-                <input type="tel" id="phone" name="phone"
+                <label for="phone"><i class="fas fa-phone"></i> 手机号 *</label>
+                <input type="tel" id="phone" name="phone" required
                        placeholder="请输入手机号码">
             </div>
             
             <div class="form-group">
-                <label for="deviceType">设备类型 *</label>
+                <label for="deviceType"><i class="fas fa-laptop"></i> 设备类型 *</label>
                 <select id="deviceType" name="deviceType" required>
                     <option value="">请选择设备类型</option>
                     <option value="台式电脑">台式电脑</option>
@@ -68,38 +314,210 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="location">使用地点</label>
-                <input type="text" id="location" name="location"
-                       placeholder="例如：教学楼A301、宿舍等">
-            </div>
-
-            <div class="form-group">
-                <label for="purpose">主要用途</label>
-                <select id="purpose" name="purpose">
-                    <option value="">请选择主要用途</option>
-                    <option value="学习办公">学习办公</option>
-                    <option value="实验研究">实验研究</option>
-                    <option value="娱乐休闲">娱乐休闲</option>
-                    <option value="其他">其他</option>
-                </select>
-            </div>
-
             <button type="submit" class="submit-btn" id="submitBtn">
-                <span class="btn-text">提交信息</span>
-                <span class="btn-loading" style="display: none;">提交中...</span>
+                <span class="btn-text"><i class="fas fa-paper-plane"></i> 提交信息</span>
+                <span class="spinner" style="display: none;"></span>
             </button>
         </form>
 
         <div class="footer-links">
-            <a href="report.html">查看统计报表</a>
-            <a href="https://github.com/your-username/device-collector" target="_blank">项目源码</a>
+            <a href="report.html"><i class="fas fa-chart-bar"></i> 查看统计报表</a>
+            <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i> 项目源码</a>
         </div>
     </div>
 
     <!-- 结果提示 -->
-    <div id="toast" class="toast"></div>
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">提交成功！</span>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        // 设备信息收集功能
+        class DeviceCollector {
+            constructor() {
+                this.collectedData = {};
+                this.init();
+            }
+
+            init() {
+                this.collectDeviceInfo();
+                this.setupFormHandler();
+            }
+
+            // 收集设备信息
+            async collectDeviceInfo() {
+                // 获取局域网IP
+                await this.getLocalIP();
+            }
+
+            // 获取局域网IP
+            async getLocalIP() {
+                return new Promise((resolve) => {
+                    // 使用WebRTC获取本地IP地址
+                    const RTCPeerConnection = window.RTCPeerConnection || 
+                                            window.mozRTCPeerConnection || 
+                                            window.webkitRTCPeerConnection;
+                    
+                    if (!RTCPeerConnection) {
+                        document.getElementById('localIp').textContent = '不支持WebRTC';
+                        this.collectedData.localIp = 'unknown';
+                        resolve();
+                        return;
+                    }
+
+                    const pc = new RTCPeerConnection({ iceServers: [] });
+                    pc.createDataChannel('');
+                    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+                    
+                    pc.onicecandidate = (ice) => {
+                        if (!ice || !ice.candidate || !ice.candidate.candidate) {
+                            document.getElementById('localIp').textContent = '获取失败';
+                            this.collectedData.localIp = 'unknown';
+                            resolve();
+                            return;
+                        }
+                        
+                        const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
+                        document.getElementById('localIp').textContent = myIP;
+                        this.collectedData.localIp = myIP;
+                        resolve();
+                    };
+                });
+            }
+
+            // 设置表单处理
+            setupFormHandler() {
+                const form = document.getElementById('deviceForm');
+                const submitBtn = document.getElementById('submitBtn');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    if (!this.validateForm(form)) {
+                        return;
+                    }
+
+                    // 显示加载状态
+                    submitBtn.classList.add('btn-loading');
+
+                    try {
+                        await this.submitFormData(form);
+                        this.showToast('信息提交成功！', 'success');
+                        form.reset();
+                    } catch (error) {
+                        console.error('提交失败:', error);
+                        this.showToast('提交失败，请重试', 'error');
+                    } finally {
+                        // 恢复按钮状态
+                        submitBtn.classList.remove('btn-loading');
+                    }
+                });
+            }
+
+            // 验证表单
+            validateForm(form) {
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = '#f56565';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#e2e8f0';
+                    }
+                });
+
+                // 验证手机号格式
+                const phoneField = document.getElementById('phone');
+                if (phoneField.value && !this.isValidPhone(phoneField.value)) {
+                    phoneField.style.borderColor = '#f56565';
+                    this.showToast('请输入正确的手机号码', 'error');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    this.showToast('请填写所有必填字段', 'error');
+                }
+
+                return isValid;
+            }
+
+            // 验证手机号格式
+            isValidPhone(phone) {
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                return phoneRegex.test(phone);
+            }
+
+            // 提交表单数据
+            async submitFormData(form) {
+                const formData = new FormData(form);
+                const userData = {
+                    userName: formData.get('userName'),
+                    phone: formData.get('phone'),
+                    deviceType: formData.get('deviceType'),
+                    ...this.collectedData,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                };
+
+                // 保存到本地存储
+                this.saveToLocalStorage(userData);
+                
+                // 模拟网络请求延迟
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+
+            // 保存到本地存储
+            saveToLocalStorage(data) {
+                let existingData = JSON.parse(localStorage.getItem('deviceCollectionData') || '[]');
+                
+                // 检查是否已存在相同的IP地址
+                const existingIndex = existingData.findIndex(item => 
+                    item.localIp === data.localIp
+                );
+                
+                if (existingIndex !== -1) {
+                    // 更新现有记录
+                    existingData[existingIndex] = data;
+                } else {
+                    // 添加新记录
+                    existingData.push(data);
+                }
+                
+                localStorage.setItem('deviceCollectionData', JSON.stringify(existingData));
+                
+                console.log('数据已保存到本地存储:', data);
+                console.log('总记录数:', existingData.length);
+            }
+
+            // 显示提示信息
+            showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                const toastMessage = document.getElementById('toastMessage');
+                
+                toastMessage.textContent = message;
+                toast.className = `toast ${type}`;
+                
+                // 设置图标
+                const icon = toast.querySelector('i');
+                icon.className = type === 'success' ? 'fas fa-check-circle' : 
+                                type === 'error' ? 'fas fa-exclamation-circle' : 
+                                'fas fa-exclamation-triangle';
+                
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            new DeviceCollector();
+        });
+    </script>
 </body>
 </html>
